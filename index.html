@@ -21,7 +21,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <a class="nav-cta" href="https://github.com/medChaouki/titanium-harmonics-web" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
@@ -105,7 +105,7 @@
 
         <div class="about-link-row">
           <p>Want to explore the code or follow along with the builds? Find us on</p>
-          <a href="https://github.com/medChaouki/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
     </section>
@@ -116,5 +116,28 @@
     <span class="footer-accent">Built because it seemed like a good idea (at the time xD).</span>
   </footer>
 
+  <button class="back-to-top" type="button" aria-label="Back to top" aria-hidden="true" tabindex="-1">
+    <span aria-hidden="true">↑</span>
+  </button>
+
+  <script>
+    const hero = document.querySelector(".hero");
+    const backToTop = document.querySelector(".back-to-top");
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      const isVisible = !entry.isIntersecting;
+
+      backToTop.classList.toggle("back-to-top-visible", isVisible);
+      backToTop.setAttribute("aria-hidden", String(!isVisible));
+      backToTop.tabIndex = isVisible ? 0 : -1;
+    });
+
+    heroObserver.observe(hero);
+
+    backToTop.addEventListener("click", () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    });
+  </script>
 </body>
 </html>
