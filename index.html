@@ -14,43 +14,43 @@
 <body>
   <header class="site-header">
     <a class="brand" href="#" aria-label="Titanium Harmonics home">
-      <span class="brand-mark" aria-hidden="true"></span>
+      <img class="brand-mark" src="assets/wave_transparent_bg.png" alt="" aria-hidden="true" />
       <span>Titanium Harmonics</span>
     </a>
 
     <nav class="nav" aria-label="Main navigation">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <a class="nav-cta" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">ENGINEERING • AUDIO • EMBEDDED • EXPERIMENTS</p>
+        <p class="eyebrow">ENGINEERING • EMBEDDED • EXPERIMENTS</p>
 
         <h1>
-          Build cool things.<br />
+          We build cool things.<br />
           <span>Because why not?</span>
         </h1>
 
         <p class="hero-text">
           Titanium Harmonics is a home for engineering projects, prototypes,
           build logs, and experiments — from embedded systems and audio to
-          whatever idea sounds interesting enough to make real.
+          whatever idea sounds interesting and fun to make real.
         </p>
 
         <div class="hero-actions">
-          <a class="button button-primary" href="#projects">Explore projects</a>
-          <a class="button button-secondary" href="#about">What is this?</a>
+          <a class="button button-primary projects-button" href="#projects">Explore projects</a>
+          <a class="button button-secondary say-hi-button" href="#about">Say Hi!</a>
         </div>
       </div>
 
       <div class="hero-visual" aria-label="Titanium Harmonics logo">
         <div class="logo-glow"></div>
         <img
-          src="assets/titanium-harmonics-logo.png"
+          src="assets/titanium-harmonics-logo-blured.png"
           alt="Titanium Harmonics logo"
         />
       </div>
@@ -85,21 +85,63 @@
 
     <section class="section about" id="about">
       <div>
-        <p class="eyebrow">THE IDEA</p>
-        <h2>Make it. Test it. Break it. Learn something.</h2>
+        <p class="eyebrow">OUR PHILOSOPHY</p>
+        <h2>Make it, Test it, Improve it and keep learning.</h2>
       </div>
 
       <p>
-        No corporate innovation theatre. Just real engineering, documented as it
+        Engineering, documented as it
         happens — including the questionable ideas, ugly first prototypes, and
         the satisfying moment when something finally works.
       </p>
+
+      <div class="about-links">
+        <p class="eyebrow">GET IN TOUCH</p>
+
+        <div class="about-link-row">
+          <p>Interested in one of the projects, or just want to say hi? Reach out on</p>
+          <a href="mailto:hi@titanium-harmonics.com">hi@titanium-harmonics.com</a>
+        </div>
+
+        <div class="about-link-row">
+          <p>Want to explore the code or follow along with the builds? Find us on</p>
+          <a href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <span>© 2026 Titanium Harmonics</span>
-    <span class="footer-accent">Built because it seemed like a good idea.</span>
+    <span class="footer-accent">Built because it seemed like a good idea (at the time xD).</span>
   </footer>
+
+  <button class="back-to-top" type="button" aria-label="Back to top" aria-hidden="true" tabindex="-1">
+    <span class="back-to-top-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path d="M6 10l6-6 6 6M12 4v16" />
+      </svg>
+    </span>
+  </button>
+
+  <script>
+    const hero = document.querySelector(".hero");
+    const backToTop = document.querySelector(".back-to-top");
+
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      const isVisible = !entry.isIntersecting;
+
+      backToTop.classList.toggle("back-to-top-visible", isVisible);
+      backToTop.setAttribute("aria-hidden", String(!isVisible));
+      backToTop.tabIndex = isVisible ? 0 : -1;
+    });
+
+    heroObserver.observe(hero);
+
+    backToTop.addEventListener("click", () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    });
+  </script>
 </body>
 </html>
