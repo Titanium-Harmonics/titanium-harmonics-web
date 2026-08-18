@@ -183,6 +183,132 @@ a {
   background: rgba(255, 255, 255, 0.03);
 }
 
+.projects-button::after {
+  content: "\00a0💡";
+  display: inline-block;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform-origin: 50% 85%;
+  transition:
+    width 160ms ease,
+    opacity 160ms ease;
+}
+
+.projects-button:hover::after,
+.projects-button:focus-visible::after {
+  width: 1.4em;
+  opacity: 1;
+  animation:
+    pulse-light-bulb 975ms steps(1, end) infinite,
+    wobble-light-bulb 550ms ease-in-out infinite alternate;
+}
+
+@keyframes wobble-light-bulb {
+  from {
+    transform: translateX(-1px) rotate(-4deg);
+  }
+
+  to {
+    transform: translateX(1px) rotate(4deg);
+  }
+}
+
+@keyframes pulse-light-bulb {
+  0%,
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+
+  10% {
+    filter: brightness(1.1) saturate(1.04);
+  }
+
+  20% {
+    filter: brightness(1.2) saturate(1.08);
+  }
+
+  30% {
+    filter: brightness(1.3) saturate(1.12);
+  }
+
+  40% {
+    filter: brightness(1.4) saturate(1.16);
+  }
+
+  50% {
+    filter: brightness(1.5) saturate(1.2);
+  }
+
+  60% {
+    filter: brightness(1.6) saturate(1.24);
+  }
+
+  70% {
+    filter: brightness(1.7) saturate(1.28)
+      drop-shadow(-2px -2px 2px rgba(255, 220, 90, 0.65))
+      drop-shadow(2px -2px 2px rgba(255, 220, 90, 0.65));
+  }
+
+  80% {
+    filter: brightness(1.8) saturate(1.32)
+      drop-shadow(-3px -3px 2px rgba(255, 220, 90, 0.8))
+      drop-shadow(3px -3px 2px rgba(255, 220, 90, 0.8))
+      drop-shadow(0 -4px 2px rgba(255, 235, 130, 0.75));
+  }
+
+  90% {
+    filter: brightness(1.9) saturate(1.36)
+      drop-shadow(-4px -3px 2px rgba(255, 220, 90, 0.95))
+      drop-shadow(4px -3px 2px rgba(255, 220, 90, 0.95))
+      drop-shadow(0 -5px 2px rgba(255, 240, 150, 0.9))
+      drop-shadow(0 0 5px rgba(255, 214, 92, 0.9));
+  }
+}
+
+.say-hi-button::after {
+  content: "\00a0👋";
+  display: inline-block;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform-origin: 70% 70%;
+  transition:
+    width 160ms ease,
+    opacity 160ms ease;
+}
+
+.say-hi-button:hover::after,
+.say-hi-button:focus-visible::after {
+  width: 1.4em;
+  opacity: 1;
+  animation: wave-hand 650ms ease-in-out infinite;
+}
+
+@keyframes wave-hand {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(18deg);
+  }
+
+  75% {
+    transform: rotate(-12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-button:hover::after,
+  .projects-button:focus-visible::after,
+  .say-hi-button:hover::after,
+  .say-hi-button:focus-visible::after {
+    animation: none;
+  }
+}
+
 .hero-visual {
   position: relative;
   display: grid;
