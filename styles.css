@@ -67,12 +67,10 @@ a {
 }
 
 .brand-mark {
-  width: 30px;
-  height: 8px;
-  border-radius: 999px 999px 0 999px;
-  background: linear-gradient(90deg, var(--coral), var(--amber));
-  transform: skewX(-22deg) rotate(-4deg);
-  box-shadow: 0 6px 20px rgba(243, 165, 76, 0.18);
+  width: 39px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 .nav {
