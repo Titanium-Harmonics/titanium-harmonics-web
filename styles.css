@@ -15,6 +15,9 @@
 
   --page-padding: clamp(1.25rem, 5vw, 5rem);
   --content-width: 1200px;
+  --logo-size: 150%;
+  --logo-mask-y: 47.2%;
+  --logo-content-offset-y: -10%;
 }
 
 * {
@@ -101,7 +104,8 @@ a {
   min-height: calc(100vh - 88px);
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  align-items: center;
+  align-items: start;
+  align-content: center;
   gap: clamp(2rem, 6vw, 7rem);
   padding: clamp(4rem, 8vw, 8rem) 0;
 }
@@ -183,19 +187,25 @@ a {
   display: grid;
   place-items: center;
   isolation: isolate;
+  transform: translateY(var(--logo-content-offset-y));
 }
 
 .hero-visual img {
   position: relative;
   z-index: 2;
-  width: min(100%, 520px);
+  grid-area: 1 / 1;
+  width: var(--logo-size);
+  max-width: none;
   height: auto;
   border-radius: 50%;
+  -webkit-mask-image: radial-gradient(circle at 50% var(--logo-mask-y), #000 0 45%, transparent 50%);
+  mask-image: radial-gradient(circle at 50% var(--logo-mask-y), #000 0 45%, transparent 50%);
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.42));
 }
 
 .logo-glow {
   position: absolute;
+  grid-area: 1 / 1;
   z-index: 1;
   width: 72%;
   aspect-ratio: 1;
@@ -324,10 +334,6 @@ a {
 
   .hero-visual {
     order: 2;
-  }
-
-  .hero-visual img {
-    width: min(82vw, 430px);
   }
 
   .project-grid,
