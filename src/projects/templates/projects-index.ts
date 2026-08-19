@@ -1,5 +1,6 @@
 import type { ProjectCardView } from "../queries/project-catalog.js";
 import { renderProjectGrid } from "./project-card.js";
+import { renderBackToTop } from "./site-controls.js";
 
 export function renderProjectsIndex(projects: readonly ProjectCardView[]): string {
   return `<!doctype html>
@@ -28,8 +29,8 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
   <main class="projects-page">
     <section class="projects-intro">
       <p class="eyebrow">PROJECT INDEX</p>
-      <h1>Things worth building.</h1>
-      <p>Hardware, software, experiments, failures, fixes, and the engineering paths connecting them.</p>
+      <h1 class="projects-statement">Explore the things we build.</h1>
+      <p>From questionable prototypes and useful failures to satisfying fixes and finished projects.</p>
     </section>
     <section aria-labelledby="project-list-heading">
       <h2 class="visually-hidden" id="project-list-heading">Titanium Harmonics projects</h2>
@@ -41,7 +42,7 @@ ${renderProjectGrid(projects)}
     <span>© 2026 Titanium Harmonics</span>
     <span class="footer-accent">Built because it seemed like a good idea (at the time xD).</span>
   </footer>
+${renderBackToTop()}
 </body>
 </html>`;
 }
-

@@ -376,6 +376,7 @@ a {
 }
 
 .project-card {
+  position: relative;
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -385,6 +386,7 @@ a {
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   overflow: hidden;
+  cursor: pointer;
   transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
 }
 
@@ -484,6 +486,13 @@ a {
   color: var(--paper);
   font-size: 0.84rem;
   font-weight: 800;
+}
+
+.project-card-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
 }
 
 .project-card-link::after {

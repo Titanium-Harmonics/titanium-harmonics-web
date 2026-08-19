@@ -1,5 +1,7 @@
 import type { ProjectDetailView } from "../queries/project-detail.js";
+import type { TimelineWaypoint } from "../queries/project-detail.js";
 import { escapeHtml } from "./html.js";
+import { renderBackToTop } from "./site-controls.js";
 
 function renderTags(title: string, tags: readonly string[]): string {
   if (tags.length === 0) return "";
@@ -11,6 +13,18 @@ ${tags.map((tag) => `            <li class="project-tag">${escapeHtml(tag)}</li>
         </div>`;
 }
 
+function renderWaypoint(entry: TimelineWaypoint): string {
+  return `            <li class="roadmap-entry roadmap-waypoint roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id.toLowerCase())}" data-roadmap-id="${escapeHtml(entry.id)}">
+              <span class="roadmap-node" aria-hidden="true"></span>
+              <div class="roadmap-entry-card">
+                <div class="roadmap-entry-meta"><span>${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
+                <h3>${escapeHtml(entry.title)}</h3>
+                <p>${escapeHtml(entry.description)}</p>
+${entry.dependsOn.length ? `                <p class="roadmap-relations">Depends on ${entry.dependsOn.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>` : ""}
+              </div>
+            </li>`;
+}
+
 function renderRoadmap(project: ProjectDetailView): string {
   if (!project.roadmap) return "";
   const roadmap = project.roadmap;
@@ -18,7 +32,7 @@ function renderRoadmap(project: ProjectDetailView): string {
       <div class="detail-section-heading">
         <div>
           <p class="eyebrow">PROJECT ROADMAP</p>
-          <h2 id="roadmap-heading">Engineering evolution.</h2>
+          <h2 id="roadmap-heading">Project evolution.</h2>
         </div>
         <dl class="roadmap-summary" aria-label="Roadmap summary">
           <div><dt>Completed</dt><dd>${roadmap.completed}</dd></div>
@@ -28,32 +42,27 @@ function renderRoadmap(project: ProjectDetailView): string {
         </dl>
       </div>
       <div class="roadmap-timeline">
-${roadmap.sections.map((section) => `        <section class="roadmap-phase roadmap-phase-${section.phase}" aria-labelledby="roadmap-${section.phase}-heading">
-          <div class="roadmap-phase-label">
-            <span aria-hidden="true"></span>
-            <h3 id="roadmap-${section.phase}-heading">${section.label}</h3>
-          </div>
-          <ol class="roadmap-list">
-${section.entries.map((entry) => entry.type === "waypoint" ? `            <li class="roadmap-entry roadmap-waypoint roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id.toLowerCase())}" data-roadmap-id="${escapeHtml(entry.id)}">
-          <span class="roadmap-node" aria-hidden="true"></span>
-          <div class="roadmap-entry-card">
-          <div class="roadmap-entry-meta"><span>${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
-          <h3>${escapeHtml(entry.title)}</h3>
-          <p>${escapeHtml(entry.description)}</p>
-${entry.dependsOn.length ? `          <p class="roadmap-relations">Depends on ${entry.dependsOn.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>` : ""}
-          </div>
-        </li>` : `            <li class="roadmap-entry roadmap-milestone roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id)}" data-roadmap-id="${escapeHtml(entry.id)}">
-          <span class="roadmap-node" aria-hidden="true"></span>
-          <div class="roadmap-entry-card">
-          <div class="roadmap-entry-meta"><span>MILESTONE ${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
-          <h3>${escapeHtml(entry.title)}</h3>
-          <p>${escapeHtml(entry.description)}</p>
-          <p class="milestone-progress"><span style="--milestone-progress: ${Math.round((entry.completedIncludes / entry.includes.length) * 100)}%"></span><strong>${entry.completedIncludes} of ${entry.includes.length}</strong> included waypoints completed</p>
-          <p class="roadmap-relations">Includes ${entry.includes.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>
-          </div>
-        </li>`).join("\n")}
+${roadmap.groups.map(({ milestone, waypoints }) => `        <details class="roadmap-milestone-group roadmap-status-${escapeHtml(milestone.status)}" id="${escapeHtml(milestone.id)}">
+          <summary class="milestone-summary">
+            <span class="milestone-summary-node" aria-hidden="true"></span>
+            <span class="milestone-summary-content">
+              <span class="roadmap-entry-meta"><span>MILESTONE ${escapeHtml(milestone.id)}</span><span class="roadmap-status">${escapeHtml(milestone.displayStatus)}</span></span>
+              <strong>${escapeHtml(milestone.title)}</strong>
+              <span class="milestone-description">${escapeHtml(milestone.description)}</span>
+              <span class="milestone-progress"><span style="--milestone-progress: ${Math.round((milestone.completedIncludes / milestone.includes.length) * 100)}%"></span><span><b>${milestone.completedIncludes} of ${milestone.includes.length}</b> waypoints completed</span></span>
+            </span>
+            <span class="milestone-toggle" aria-hidden="true"></span>
+          </summary>
+          <ol class="roadmap-list milestone-waypoints">
+${waypoints.map(renderWaypoint).join("\n")}
           </ol>
-        </section>`).join("\n")}
+        </details>`).join("\n")}
+${roadmap.unassigned.length ? `        <section class="roadmap-unassigned" aria-labelledby="unassigned-waypoints-heading">
+          <h3 id="unassigned-waypoints-heading">Unversioned waypoints</h3>
+          <ol class="roadmap-list">
+${roadmap.unassigned.map(renderWaypoint).join("\n")}
+          </ol>
+        </section>` : ""}
       </div>
     </section>`;
 }
@@ -93,12 +102,7 @@ ${project.fullName ? `        <p class="project-detail-full-name">${escapeHtml(p
         <a class="button button-primary" href="${escapeHtml(project.repositoryUrl)}" target="_blank" rel="noreferrer">View on GitHub ↗</a>
       </div>
 ${project.bannerUrl ? `      <div class="project-detail-banner"><img src="${escapeHtml(project.bannerUrl)}" alt="${escapeHtml(project.name)} project banner" /></div>` : ""}
-    </section>
-
-    <section class="project-detail-section" aria-labelledby="overview-heading">
-      <p class="eyebrow">PROJECT OVERVIEW</p>
-      <h2 id="overview-heading">Built with purpose.</h2>
-      <div class="project-facts">
+      <div class="project-facts project-hero-facts">
 ${renderTags("Platforms", project.platforms)}
 ${renderTags("Technologies", project.technologies)}
 ${renderTags("Categories", project.categories)}
@@ -120,6 +124,7 @@ ${project.links.map(({ label, url }) => `        <li><a href="${escapeHtml(url)}
     <span>© 2026 Titanium Harmonics</span>
     <span class="footer-accent">Built because it seemed like a good idea (at the time xD).</span>
   </footer>
+${renderBackToTop()}
   <script>
     document.querySelectorAll("[data-roadmap-ref]").forEach((link) => {
       const target = document.querySelector('[data-roadmap-id="' + CSS.escape(link.dataset.roadmapRef) + '"]');
@@ -129,6 +134,10 @@ ${project.links.map(({ label, url }) => `        <li><a href="${escapeHtml(url)}
       link.addEventListener("mouseleave", () => toggle(false));
       link.addEventListener("focus", () => toggle(true));
       link.addEventListener("blur", () => toggle(false));
+      link.addEventListener("click", () => {
+        const group = target.closest("details");
+        if (group) group.open = true;
+      });
     });
   </script>
 </body>
