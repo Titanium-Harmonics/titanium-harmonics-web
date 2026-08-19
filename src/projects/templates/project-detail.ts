@@ -27,19 +27,34 @@ function renderRoadmap(project: ProjectDetailView): string {
           <div><dt>Milestones</dt><dd>${roadmap.milestones}</dd></div>
         </dl>
       </div>
-      <ol class="roadmap-list">
-${roadmap.entries.map((entry) => entry.type === "waypoint" ? `        <li class="roadmap-entry roadmap-waypoint" id="${escapeHtml(entry.id.toLowerCase())}">
-          <div class="roadmap-entry-meta"><span>${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.status)}</span></div>
+      <div class="roadmap-timeline">
+${roadmap.sections.map((section) => `        <section class="roadmap-phase roadmap-phase-${section.phase}" aria-labelledby="roadmap-${section.phase}-heading">
+          <div class="roadmap-phase-label">
+            <span aria-hidden="true"></span>
+            <h3 id="roadmap-${section.phase}-heading">${section.label}</h3>
+          </div>
+          <ol class="roadmap-list">
+${section.entries.map((entry) => entry.type === "waypoint" ? `            <li class="roadmap-entry roadmap-waypoint roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id.toLowerCase())}" data-roadmap-id="${escapeHtml(entry.id)}">
+          <span class="roadmap-node" aria-hidden="true"></span>
+          <div class="roadmap-entry-card">
+          <div class="roadmap-entry-meta"><span>${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
           <h3>${escapeHtml(entry.title)}</h3>
           <p>${escapeHtml(entry.description)}</p>
-${entry.dependsOn.length ? `          <p class="roadmap-relations">Depends on ${entry.dependsOn.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}">${escapeHtml(id)}</a>`).join(", ")}</p>` : ""}
-        </li>` : `        <li class="roadmap-entry roadmap-milestone" id="${escapeHtml(entry.id)}">
-          <div class="roadmap-entry-meta"><span>MILESTONE ${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.status)}</span></div>
+${entry.dependsOn.length ? `          <p class="roadmap-relations">Depends on ${entry.dependsOn.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>` : ""}
+          </div>
+        </li>` : `            <li class="roadmap-entry roadmap-milestone roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id)}" data-roadmap-id="${escapeHtml(entry.id)}">
+          <span class="roadmap-node" aria-hidden="true"></span>
+          <div class="roadmap-entry-card">
+          <div class="roadmap-entry-meta"><span>MILESTONE ${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
           <h3>${escapeHtml(entry.title)}</h3>
           <p>${escapeHtml(entry.description)}</p>
-          <p class="roadmap-relations">Includes ${entry.includes.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}">${escapeHtml(id)}</a>`).join(", ")}</p>
+          <p class="milestone-progress"><span style="--milestone-progress: ${Math.round((entry.completedIncludes / entry.includes.length) * 100)}%"></span><strong>${entry.completedIncludes} of ${entry.includes.length}</strong> included waypoints completed</p>
+          <p class="roadmap-relations">Includes ${entry.includes.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>
+          </div>
         </li>`).join("\n")}
-      </ol>
+          </ol>
+        </section>`).join("\n")}
+      </div>
     </section>`;
 }
 
@@ -105,7 +120,17 @@ ${project.links.map(({ label, url }) => `        <li><a href="${escapeHtml(url)}
     <span>© 2026 Titanium Harmonics</span>
     <span class="footer-accent">Built because it seemed like a good idea (at the time xD).</span>
   </footer>
+  <script>
+    document.querySelectorAll("[data-roadmap-ref]").forEach((link) => {
+      const target = document.querySelector('[data-roadmap-id="' + CSS.escape(link.dataset.roadmapRef) + '"]');
+      if (!target) return;
+      const toggle = (active) => target.classList.toggle("roadmap-entry-related", active);
+      link.addEventListener("mouseenter", () => toggle(true));
+      link.addEventListener("mouseleave", () => toggle(false));
+      link.addEventListener("focus", () => toggle(true));
+      link.addEventListener("blur", () => toggle(false));
+    });
+  </script>
 </body>
 </html>`;
 }
-

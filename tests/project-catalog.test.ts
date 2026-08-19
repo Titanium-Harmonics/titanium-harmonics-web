@@ -81,9 +81,13 @@ test("builds and renders a project detail page", () => {
   const detail = getProjectDetail(snapshot);
   assert.equal(detail.roadmap?.completed, 1);
   assert.equal(detail.roadmap?.milestones, 1);
+  assert.deepEqual(detail.roadmap?.sections.map(({ phase }) => phase), ["past", "future"]);
   const html = renderProjectDetail(detail);
   assert.match(html, /<title>B\.A\.D\. — Titanium Harmonics<\/title>/);
   assert.match(html, /id="wp-001"/);
   assert.match(html, /MILESTONE v1\.0\.0/);
+  assert.match(html, /1 of 1<\/strong> included waypoints completed/);
+  assert.match(html, /roadmap-phase-past/);
+  assert.match(html, /data-roadmap-ref="WP-001"/);
   assert.match(html, /View on GitHub/);
 });
