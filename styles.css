@@ -428,6 +428,25 @@ a {
     linear-gradient(145deg, rgba(243, 165, 76, 0.08), rgba(255, 255, 255, 0.02));
 }
 
+.project-card-placeholder {
+  cursor: default;
+}
+
+.project-card-placeholder:hover {
+  border-color: rgba(255, 255, 255, 0.10);
+  transform: none;
+  background:
+    linear-gradient(145deg, rgba(243, 165, 76, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.project-placeholder-footer::before {
+  display: none;
+}
+
+.project-placeholder-footer::after {
+  content: " …";
+}
+
 .project-number {
   color: var(--metal-500);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;

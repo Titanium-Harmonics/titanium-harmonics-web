@@ -23,7 +23,7 @@ const cards = listProjectCards(registry.projects);
 const homepageSource = await readFile(resolve(root, "index.html"), "utf8");
 const homepage = homepageSource.replace(
   /<!-- PROJECTS:START -->[\s\S]*?<!-- PROJECTS:END -->/,
-  `<!-- PROJECTS:START -->\n${renderProjectGrid(cards)}\n      <!-- PROJECTS:END -->`,
+  `<!-- PROJECTS:START -->\n${renderProjectGrid(cards, { showIncomingPlaceholder: true })}\n      <!-- PROJECTS:END -->`,
 );
 if (homepage === homepageSource) throw new Error("Homepage Projects generation markers are missing.");
 
