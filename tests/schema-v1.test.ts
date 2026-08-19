@@ -84,6 +84,24 @@ project:
   assert.equal(invalid.success, false);
 });
 
+test("rejects non-web project links", () => {
+  const result = parseManifest(`
+schema_version: 1
+project:
+  id: unsafe-link
+  name: Unsafe
+  summary: Unsafe link.
+  status: active
+  repository:
+    provider: github
+    owner: Titanium-Harmonics
+    name: unsafe-link
+    url: javascript:alert(1)
+    default_branch: main
+`, "project");
+  assert.equal(result.success, false);
+});
+
 test("rejects invalid roadmap references, cycles, and multiple milestone membership", () => {
   const result = parseManifest(`
 schema_version: 1

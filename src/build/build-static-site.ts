@@ -3,7 +3,9 @@ import { resolve } from "node:path";
 import { PROJECT_REPOSITORIES } from "../../projects.config.js";
 import { loadRegistry } from "../projects/build/load-registry.js";
 import { listProjectCards } from "../projects/queries/project-catalog.js";
+import { getProjectDetail } from "../projects/queries/project-detail.js";
 import { renderProjectGrid } from "../projects/templates/project-card.js";
+import { renderProjectDetail } from "../projects/templates/project-detail.js";
 import { renderProjectsIndex } from "../projects/templates/projects-index.js";
 
 const root = resolve(import.meta.dirname, "../..");
@@ -27,6 +29,12 @@ if (homepage === homepageSource) throw new Error("Homepage Projects generation m
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
+const detailPages = registry.projects.map(async (snapshot) => {
+  const detail = getProjectDetail(snapshot);
+  const directory = resolve(output, "projects", detail.id);
+  await mkdir(directory, { recursive: true });
+  await writeFile(resolve(directory, "index.html"), renderProjectDetail(detail));
+});
 await Promise.all([
   writeFile(resolve(output, "index.html"), homepage),
   cp(resolve(root, "styles.css"), resolve(output, "styles.css")),
@@ -35,7 +43,7 @@ await Promise.all([
   cp(resolve(root, "assets"), resolve(output, "assets"), { recursive: true }),
   mkdir(resolve(output, "projects"), { recursive: true }).then(() =>
     writeFile(resolve(output, "projects/index.html"), renderProjectsIndex(cards))),
+  ...detailPages,
 ]);
 
 console.log(`Built the static site with ${cards.length} project(s) into dist/.`);
-

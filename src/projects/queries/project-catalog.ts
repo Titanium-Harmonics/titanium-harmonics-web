@@ -9,7 +9,7 @@ export interface ProjectCardView {
   platform?: string;
   technologies: string[];
   bannerUrl?: string;
-  sourceUrl: string;
+  detailUrl: string;
 }
 
 export function formatIdentifier(identifier: string): string {
@@ -32,7 +32,7 @@ export function listProjectCards(projects: readonly ProjectSnapshot[]): ProjectC
       ...(value.platforms[0] ? { platform: formatIdentifier(value.platforms[0]) } : {}),
       technologies: value.technologies.slice(0, 3).map(formatIdentifier),
       ...(branding.banner ? { bannerUrl: branding.banner.rawUrl } : {}),
-      sourceUrl: value.links.source ?? value.repository.url,
+      detailUrl: `/projects/${encodeURIComponent(value.id)}/`,
     };
   });
 }

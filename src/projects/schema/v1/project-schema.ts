@@ -3,11 +3,16 @@ import { PROJECT_STATUSES, type ProjectManifest } from "../../domain/project.js"
 import type { ValidationResult } from "../../domain/validation.js";
 import { PROJECT_ID_PATTERN, unknownFieldWarnings, zodIssues } from "../common.js";
 
+const httpUrlSchema = z.url().refine(
+  (value) => ["http:", "https:"].includes(new URL(value).protocol),
+  "Must use an HTTP or HTTPS URL.",
+);
+
 const repositorySchema = z.object({
   provider: z.literal("github"),
   owner: z.string().trim().min(1),
   name: z.string().trim().min(1),
-  url: z.url(),
+  url: httpUrlSchema,
   default_branch: z.string().trim().min(1),
 }).passthrough();
 
@@ -21,7 +26,7 @@ const projectSchema = z.object({
   platforms: z.array(z.string().trim().min(1)).optional(),
   categories: z.array(z.string().trim().min(1)).optional(),
   technologies: z.array(z.string().trim().min(1)).optional(),
-  links: z.record(z.string(), z.url()).optional(),
+  links: z.record(z.string(), httpUrlSchema).optional(),
   branding: z.record(z.string(), z.string().trim().min(1)).optional(),
 }).passthrough();
 
@@ -78,4 +83,3 @@ export function validateProjectV1(input: unknown): ValidationResult<ProjectManif
     },
   };
 }
-
