@@ -1,0 +1,21 @@
+schema_version: 1
+project:
+  id: bad
+  name: "B.A.D."
+  full_name: "Beat Accuracy Detector"
+  summary: An Android drum-practice application that evaluates timing accuracy.
+  status: active
+  repository:
+    provider: github
+    owner: Titanium-Harmonics
+    name: BAD
+    url: "https://github.com/Titanium-Harmonics/BAD"
+    default_branch: main
+  platforms: [android]
+  categories: [audio, music, dsp, education]
+  technologies: [kotlin, jetpack_compose, android, gradle]
+  links:
+    source: "https://github.com/Titanium-Harmonics/BAD"
+  branding:
+    banner: "docs/assets/bad-banner.png"
+
