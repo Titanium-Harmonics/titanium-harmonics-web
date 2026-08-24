@@ -15,9 +15,9 @@
 
   --page-padding: clamp(1.25rem, 5vw, 5rem);
   --content-width: 1200px;
-  --logo-size: 150%;
+  --logo-size: 120%;
   --logo-mask-y: 47.2%;
-  --logo-content-offset-y: -10%;
+  --logo-content-offset-y: 70%;
   --section-spacing: 5vh;
 }
 
@@ -332,6 +332,14 @@ a {
   -webkit-mask-image: radial-gradient(circle at 50% var(--logo-mask-y), #000 0 45%, transparent 50%);
   mask-image: radial-gradient(circle at 50% var(--logo-mask-y), #000 0 45%, transparent 50%);
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.42));
+}
+
+.hero-visual .hero-wave {
+  width: var(--logo-size);
+  border-radius: 0;
+  -webkit-mask-image: none;
+  mask-image: none;
+  filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.48));
 }
 
 .logo-glow {
