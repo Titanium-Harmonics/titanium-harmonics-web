@@ -37,6 +37,7 @@ const detailPages = registry.projects.map(async (snapshot) => {
 });
 await Promise.all([
   writeFile(resolve(output, "index.html"), homepage),
+  writeFile(resolve(output, ".nojekyll"), ""),
   cp(resolve(root, "styles.css"), resolve(output, "styles.css")),
   cp(resolve(root, "projects.css"), resolve(output, "projects.css")),
   cp(resolve(root, "CNAME"), resolve(output, "CNAME")),

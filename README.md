@@ -21,7 +21,9 @@ npm test
 npm run build
 ```
 
-The generated GitHub Pages site is written to `dist/`. Preview it with:
+The generated GitHub Pages site is written to `dist/`, including a `.nojekyll`
+marker so nested static routes are served without Jekyll processing. Preview it
+with:
 
 ```shell
 python3 -m http.server 8000 --directory dist
