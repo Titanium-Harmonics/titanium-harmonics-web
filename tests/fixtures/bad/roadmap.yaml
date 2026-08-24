@@ -1,0 +1,21 @@
+schema_version: 1
+project: bad
+roadmap:
+  - id: WP-001
+    type: waypoint
+    title: Recording and Debug Playback
+    status: completed
+    description: Establish recording and debug playback.
+  - id: WP-002
+    type: waypoint
+    title: Sample Alignment and Recorded Session
+    status: planned
+    depends_on: [WP-001]
+    description: Align captured samples with the exercise timeline.
+  - id: v1.0.0
+    type: milestone
+    title: Complete Practice Experience
+    status: planned
+    description: Deliver the first-generation practice experience.
+    includes: [WP-001, WP-002]
+

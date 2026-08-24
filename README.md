@@ -11,3 +11,30 @@ The current site palette is derived from the Titanium Harmonics logo and should 
 - Amber: `#ffb33e`
 - Coral highlight: `#ff8358`
 - Off-white: `#f7f5f2`
+
+## Local verification
+
+```shell
+npm ci
+npm run check
+npm test
+npm run build
+```
+
+The generated GitHub Pages site is written to `dist/`. Preview it with:
+
+```shell
+python3 -m http.server 8000 --directory dist
+```
+
+## GitHub Pages deployment
+
+The `Build and deploy GitHub Pages` workflow validates the manifest-backed
+project catalog, generates the static site, and deploys `dist/`. In the GitHub
+repository settings, select **GitHub Actions** as the Pages source once. Keep
+the custom domain configured in Pages settings; `CNAME` is included in the
+generated artifact.
+
+Deployments run on pushes to `main` and project repository dispatches. See
+[project-triggered website rebuilds](docs/project-rebuilds.md) for the
+cross-repository setup.
