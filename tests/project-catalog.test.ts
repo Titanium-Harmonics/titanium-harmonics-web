@@ -88,7 +88,7 @@ test("renders the standalone Projects index", () => {
   assert.match(html, /<title>Projects — Titanium Harmonics<\/title>/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /class="projects-statement">Explore the things we build\./);
-  assert.match(html, /From questionable prototypes and useful failures/);
+  assert.match(html, /From early prototypes and failures/);
   assert.match(html, /aria-label="Back to top"/);
 });
 
