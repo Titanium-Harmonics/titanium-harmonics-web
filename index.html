@@ -30,15 +30,12 @@
       <div class="hero-copy">
         <p class="eyebrow">ENGINEERING • EMBEDDED • EXPERIMENTS</p>
 
-        <h1>
-          We build cool things.<br />
-          <span>Because why not?</span>
-        </h1>
+        <h1>Make it, Test it, Improve it and keep learning.</h1>
 
         <p class="hero-text">
-          Titanium Harmonics is a home for engineering projects, prototypes,
-          build logs, and experiments — from embedded systems and audio to
-          whatever idea sounds interesting and fun to make real.
+          Engineering, documented as it happens — including the questionable
+          ideas, ugly first prototypes, and the satisfying moment when
+          something finally works
         </p>
 
         <div class="hero-actions">
@@ -50,8 +47,9 @@
       <div class="hero-visual" aria-label="Titanium Harmonics logo">
         <div class="logo-glow"></div>
         <img
-          src="assets/titanium-harmonics-logo-blured.png"
-          alt="Titanium Harmonics logo"
+          class="hero-wave"
+          src="assets/wave_transparent_bg.png"
+          alt="Titanium Harmonics wave logo"
         />
       </div>
     </section>
@@ -87,17 +85,6 @@
     </section>
 
     <section class="section about" id="about">
-      <div>
-        <p class="eyebrow">OUR PHILOSOPHY</p>
-        <h2>Make it, Test it, Improve it and keep learning.</h2>
-      </div>
-
-      <p>
-        Engineering, documented as it
-        happens — including the questionable ideas, ugly first prototypes, and
-        the satisfying moment when something finally works.
-      </p>
-
       <div class="about-links">
         <p class="eyebrow">GET IN TOUCH</p>
 
@@ -145,6 +132,7 @@
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     });
+
   </script>
 </body>
 </html>
