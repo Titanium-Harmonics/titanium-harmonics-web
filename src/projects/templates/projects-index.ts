@@ -34,7 +34,7 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
     <section class="projects-intro">
       <p class="eyebrow">PROJECT INDEX</p>
       <h1 class="projects-statement">Explore the things we build.</h1>
-      <p>From questionable prototypes and useful failures to satisfying fixes and finished projects.</p>
+      <p>From early prototypes and failures to satisfying fixes and finished projects.</p>
     </section>
     <section aria-labelledby="project-list-heading">
       <h2 class="visually-hidden" id="project-list-heading">Titanium Harmonics projects</h2>

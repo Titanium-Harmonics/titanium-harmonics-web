@@ -774,25 +774,43 @@ button:focus-visible {
 
   .hero {
     min-height: auto;
-    grid-template-columns: 1fr;
-    gap: clamp(1.5rem, 7vw, 3rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(0.5rem, 2vw, 0.9rem);
+    row-gap: 0;
   }
 
-  .hero-copy {
-    order: 1;
+  .hero-copy,
+  .hero-actions {
+    display: contents;
+  }
+
+  .hero-copy > .eyebrow,
+  .hero h1,
+  .hero-text,
+  .projects-button {
+    grid-column: 1 / -1;
+  }
+
+  .hero .button {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding-inline: clamp(0.45rem, 2vw, 1.2rem);
+    white-space: nowrap;
+  }
+
+  .projects-button {
+    grid-column: 1;
+    margin-top: 1.6rem;
+  }
+
+  .say-hi-button {
+    grid-column: 2;
+    margin-top: 1.6rem;
   }
 
   .hero-visual {
-    order: 2;
-    width: min(100%, 30rem);
-    margin: 0 auto;
-    transform: none;
-  }
-
-  .hero-visual img,
-  .hero-visual .hero-wave {
-    width: min(100%, 28rem);
-    max-width: 100%;
+    display: none;
   }
 
   .project-grid,
@@ -825,14 +843,6 @@ button:focus-visible {
     margin-top: 1.4rem;
     font-size: 1rem;
     line-height: 1.65;
-  }
-
-  .hero-actions {
-    margin-top: 1.6rem;
-  }
-
-  .button {
-    flex: 1 1 10rem;
   }
 
   .project-grid {
@@ -893,5 +903,9 @@ button:focus-visible {
 
   .nav-toggle {
     padding: 0;
+  }
+
+  .hero .button {
+    font-size: 0.78rem;
   }
 }
