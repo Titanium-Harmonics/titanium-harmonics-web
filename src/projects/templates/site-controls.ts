@@ -8,8 +8,32 @@ export function renderBackToTop(): string {
   </button>
   <script>
     (() => {
+      const navToggle = document.querySelector(".nav-toggle");
+      const nav = document.querySelector(".nav");
       const pageIntro = document.querySelector(".hero, .projects-intro, .project-detail-hero");
       const backToTop = document.querySelector(".back-to-top");
+
+      if (navToggle && nav) {
+        const closeMenu = () => {
+          navToggle.setAttribute("aria-expanded", "false");
+          nav.classList.remove("nav-open");
+        };
+        navToggle.addEventListener("click", () => {
+          const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+          navToggle.setAttribute("aria-expanded", String(!isOpen));
+          nav.classList.toggle("nav-open", !isOpen);
+        });
+        nav.addEventListener("click", (event) => {
+          if (event.target.closest("a")) closeMenu();
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closeMenu();
+            navToggle.focus();
+          }
+        });
+      }
+
       if (!pageIntro || !backToTop) return;
 
       const introObserver = new IntersectionObserver(([entry]) => {
@@ -27,4 +51,3 @@ export function renderBackToTop(): string {
     })();
   </script>`;
 }
-

@@ -19,7 +19,11 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
       <img class="brand-mark" src="/assets/wave_transparent_bg.png" alt="" aria-hidden="true" />
       <span>Titanium Harmonics</span>
     </a>
-    <nav class="nav" aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+      <span>Menu</span>
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+    <nav class="nav" id="main-navigation" aria-label="Main navigation">
       <a aria-current="page" href="/projects/">Projects</a>
       <a href="/#about">About</a>
       <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
@@ -30,7 +34,7 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
     <section class="projects-intro">
       <p class="eyebrow">PROJECT INDEX</p>
       <h1 class="projects-statement">Explore the things we build.</h1>
-      <p>From questionable prototypes and useful failures to satisfying fixes and finished projects.</p>
+      <p>From early prototypes and failures to satisfying fixes and finished projects.</p>
     </section>
     <section aria-labelledby="project-list-heading">
       <h2 class="visually-hidden" id="project-list-heading">Titanium Harmonics projects</h2>
