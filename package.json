@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node --import tsx src/build/build-static-site.ts",
     "check": "tsc --noEmit",
+    "preview": "npm run build && python3 -m http.server 8000 --directory dist",
     "projects:validate": "node --import tsx src/projects/build/validate-registry.ts",
     "test": "node --import tsx --test tests/**/*.test.ts"
   },
