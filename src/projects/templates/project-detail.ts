@@ -84,7 +84,11 @@ export function renderProjectDetail(project: ProjectDetailView): string {
       <img class="brand-mark" src="/assets/wave_transparent_bg.png" alt="" aria-hidden="true" />
       <span>Titanium Harmonics</span>
     </a>
-    <nav class="nav" aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+      <span>Menu</span>
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+    <nav class="nav" id="main-navigation" aria-label="Main navigation">
       <a aria-current="page" href="/projects/">Projects</a>
       <a href="/#about">About</a>
       <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>

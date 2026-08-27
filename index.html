@@ -18,7 +18,12 @@
       <span>Titanium Harmonics</span>
     </a>
 
-    <nav class="nav" aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+      <span>Menu</span>
+      <span class="nav-toggle-icon" aria-hidden="true"></span>
+    </button>
+
+    <nav class="nav" id="main-navigation" aria-label="Main navigation">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
       <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
@@ -115,8 +120,32 @@
   </button>
 
   <script>
+    const navToggle = document.querySelector(".nav-toggle");
+    const nav = document.querySelector(".nav");
     const hero = document.querySelector(".hero");
     const backToTop = document.querySelector(".back-to-top");
+
+    const closeMenu = () => {
+      navToggle.setAttribute("aria-expanded", "false");
+      nav.classList.remove("nav-open");
+    };
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      navToggle.setAttribute("aria-expanded", String(!isOpen));
+      nav.classList.toggle("nav-open", !isOpen);
+    });
+
+    nav.addEventListener("click", (event) => {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        navToggle.focus();
+      }
+    });
 
     const heroObserver = new IntersectionObserver(([entry]) => {
       const isVisible = !entry.isIntersecting;
