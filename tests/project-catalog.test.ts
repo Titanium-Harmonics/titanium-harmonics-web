@@ -76,11 +76,11 @@ test("adds an incoming-project placeholder only when requested", () => {
   const cards = listProjectCards([snapshot]);
   const homepage = renderProjectGrid(cards, { showIncomingPlaceholder: true });
   const catalog = renderProjectGrid(cards);
-  assert.ok(homepage.indexOf("B.A.D.") < homepage.indexOf("More projects incoming shortly."));
+  assert.ok(homepage.indexOf("B.A.D.") < homepage.indexOf("More projects are taking shape."));
   assert.match(homepage, /project-card-placeholder/);
   assert.match(homepage, /src="\/assets\/c_soon\.png"/);
   assert.match(homepage, /Coming Soon/);
-  assert.doesNotMatch(catalog, /More projects incoming shortly/);
+  assert.doesNotMatch(catalog, /More projects are taking shape/);
 });
 
 test("renders the standalone Projects index", () => {
