@@ -90,7 +90,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
     </button>
     <nav class="nav" id="main-navigation" aria-label="Main navigation">
       <a aria-current="page" href="/projects/">Projects</a>
-      <a href="/#about">About</a>
+      <a href="/#contact">Contact</a>
       <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
