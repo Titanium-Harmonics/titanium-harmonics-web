@@ -534,11 +534,6 @@ button:focus-visible {
   z-index: 2;
 }
 
-.project-card-link::after {
-  content: " →";
-  color: var(--orange);
-}
-
 .projects-index-link {
   display: inline-block;
   margin-top: 1.5rem;
