@@ -103,7 +103,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
         <h1>${escapeHtml(project.name)}</h1>
 ${project.fullName ? `        <p class="project-detail-full-name">${escapeHtml(project.fullName)}</p>` : ""}
         <p class="project-detail-summary">${escapeHtml(project.summary)}</p>
-        <a class="button button-primary" href="${escapeHtml(project.repositoryUrl)}" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+        <a class="button button-primary" href="${escapeHtml(project.repositoryUrl)}" target="_blank" rel="noreferrer">View on GitHub</a>
       </div>
 ${project.bannerUrl ? `      <div class="project-detail-banner"><img src="${escapeHtml(project.bannerUrl)}" alt="${escapeHtml(project.name)} project banner" /></div>` : ""}
       <div class="project-facts project-hero-facts">
