@@ -34,13 +34,11 @@ function renderIncomingPlaceholder(index: number): string {
             <span class="project-number">${String(index + 1).padStart(2, "0")}</span>
             <span class="project-status">IN THE LAB</span>
           </div>
-          <h3>More projects incoming shortly.</h3>
-          <p class="project-full-name">The next build is taking shape</p>
-          <p>There is always another questionable idea waiting for its turn on the workbench.</p>
+          <h3>More projects are taking shape.</h3>
+          <p class="project-full-name">New projects appear here once the work starts</p>
           <ul class="project-tags" aria-label="Project state">
             <li class="project-tag">Coming Soon</li>
           </ul>
-          <span class="project-card-link project-placeholder-footer">Stay tuned</span>
         </article>`;
 }
 

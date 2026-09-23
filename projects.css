@@ -161,10 +161,43 @@
 
 .project-hero-facts .project-fact {
   padding: 1rem 1.15rem;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .project-hero-facts .project-tags {
   margin-top: 0.8rem;
+}
+
+.project-hero-facts .project-fact h3 {
+  transition: color 180ms ease;
+}
+
+.project-hero-facts .project-tag {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.project-hero-facts .project-fact:hover {
+  border-color: rgba(243, 165, 76, 0.5);
+  background: rgba(243, 165, 76, 0.06);
+  box-shadow: 0 12px 28px rgba(243, 165, 76, 0.1);
+}
+
+.project-hero-facts .project-fact:hover h3 {
+  color: var(--amber);
+}
+
+.project-hero-facts .project-fact:hover .project-tag {
+  border-color: rgba(243, 165, 76, 0.55);
+  background: rgba(243, 165, 76, 0.12);
+  color: var(--paper);
+  transform: translateY(-2px);
 }
 
 .project-fact {
@@ -636,5 +669,9 @@
 @media (prefers-reduced-motion: reduce) {
   .roadmap-status-in_progress .roadmap-node {
     animation: none;
+  }
+
+  .project-hero-facts .project-fact:hover .project-tag {
+    transform: none;
   }
 }

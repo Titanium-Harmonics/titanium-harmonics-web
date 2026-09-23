@@ -76,11 +76,11 @@ test("adds an incoming-project placeholder only when requested", () => {
   const cards = listProjectCards([snapshot]);
   const homepage = renderProjectGrid(cards, { showIncomingPlaceholder: true });
   const catalog = renderProjectGrid(cards);
-  assert.ok(homepage.indexOf("B.A.D.") < homepage.indexOf("More projects incoming shortly."));
+  assert.ok(homepage.indexOf("B.A.D.") < homepage.indexOf("More projects are taking shape."));
   assert.match(homepage, /project-card-placeholder/);
   assert.match(homepage, /src="\/assets\/c_soon\.png"/);
   assert.match(homepage, /Coming Soon/);
-  assert.doesNotMatch(catalog, /More projects incoming shortly/);
+  assert.doesNotMatch(catalog, /More projects are taking shape/);
 });
 
 test("renders the standalone Projects index", () => {
@@ -89,6 +89,8 @@ test("renders the standalone Projects index", () => {
   assert.match(html, /aria-current="page"/);
   assert.match(html, /class="projects-statement">Explore the things we build\./);
   assert.match(html, /From early prototypes and failures/);
+  assert.match(html, /href="\/#contact">Contact<\/a>/);
+  assert.doesNotMatch(html, /#about/);
   assert.match(html, /aria-label="Back to top"/);
 });
 
@@ -104,6 +106,8 @@ test("builds and renders a project detail page", () => {
   assert.match(html, /1 of 1<\/b> waypoints completed/);
   assert.match(html, /<details class="roadmap-milestone-group/);
   assert.match(html, /View on GitHub/);
+  assert.match(html, /href="\/#contact">Contact<\/a>/);
+  assert.doesNotMatch(html, /#about/);
   assert.match(html, /aria-label="Back to top"/);
   assert.match(html, /introObserver\.observe\(pageIntro\)/);
   assert.doesNotMatch(html, /PROJECT OVERVIEW/);
