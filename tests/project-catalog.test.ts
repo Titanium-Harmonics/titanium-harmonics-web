@@ -70,6 +70,8 @@ test("renders escaped accessible project cards", () => {
   assert.doesNotMatch(html, /target="_blank"/);
   assert.match(html, /aria-label="Platform and technologies"/);
   assert.match(html, /class="project-card-link"/);
+  assert.match(html, /aria-label="Explore B\.A\.D\."/);
+  assert.doesNotMatch(html, />Explore project<\/a>/);
 });
 
 test("adds an incoming-project placeholder only when requested", () => {
@@ -86,6 +88,7 @@ test("adds an incoming-project placeholder only when requested", () => {
 test("renders the standalone Projects index", () => {
   const html = renderProjectsIndex(listProjectCards([snapshot]));
   assert.match(html, /<title>Projects — Titanium Harmonics<\/title>/);
+  assert.match(html, /aria-label="Main navigation">\s*<a href="\/">Home<\/a>/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /class="projects-statement">Explore the things we build\./);
   assert.match(html, /From early prototypes and failures/);
@@ -101,6 +104,12 @@ test("builds and renders a project detail page", () => {
   assert.deepEqual(detail.roadmap?.groups.map(({ milestone }) => milestone.id), ["v1.0.0"]);
   const html = renderProjectDetail(detail);
   assert.match(html, /<title>B\.A\.D\. — Titanium Harmonics<\/title>/);
+  assert.match(html, /aria-label="Main navigation">\s*<a href="\/">Home<\/a>/);
+  assert.match(html, /aria-label="Breadcrumb">\s*<ol>\s*<li><a href="\/">Home<\/a><\/li>/);
+  assert.match(html, /<nav class="detail-breadcrumb" aria-label="Breadcrumb">/);
+  assert.match(html, /<a href="\/projects\/">All projects<\/a>/);
+  assert.match(html, /<span aria-current="page">B\.A\.D\.<\/span>/);
+  assert.doesNotMatch(html, /← All projects/);
   assert.match(html, /id="wp-001"/);
   assert.match(html, /MILESTONE v1\.0\.0/);
   assert.match(html, /1 of 1<\/b> waypoints completed/);
