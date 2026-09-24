@@ -17,7 +17,7 @@ ${project.fullName ? `          <p class="project-full-name">${escapeHtml(projec
 ${tags.length > 0 ? `          <ul class="project-tags" aria-label="Platform and technologies">
 ${tags.map((tag) => `            <li class="project-tag">${escapeHtml(tag)}</li>`).join("\n")}
           </ul>` : ""}
-          <a class="project-card-link" href="${escapeHtml(project.detailUrl)}" aria-label="Explore ${escapeHtml(project.name)}">Explore project</a>
+          <a class="project-card-link" href="${escapeHtml(project.detailUrl)}" aria-label="Explore ${escapeHtml(project.name)}"></a>
         </article>`;
 }
 

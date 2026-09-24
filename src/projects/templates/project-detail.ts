@@ -89,6 +89,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
       <span class="nav-toggle-icon" aria-hidden="true"></span>
     </button>
     <nav class="nav" id="main-navigation" aria-label="Main navigation">
+      <a href="/">Home</a>
       <a aria-current="page" href="/projects/">Projects</a>
       <a href="/#contact">Contact</a>
       <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
@@ -96,7 +97,13 @@ export function renderProjectDetail(project: ProjectDetailView): string {
   </header>
 
   <main class="project-detail-page">
-    <a class="detail-back-link" href="/projects/">← All projects</a>
+    <nav class="detail-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><span aria-hidden="true">/</span><a href="/projects/">All projects</a></li>
+        <li><span aria-hidden="true">/</span><span aria-current="page">${escapeHtml(project.name)}</span></li>
+      </ol>
+    </nav>
     <section class="project-detail-hero">
       <div class="project-detail-copy">
         <div class="project-detail-kicker"><p class="eyebrow">PROJECT</p><span class="project-status">${escapeHtml(project.status.toUpperCase())}</span></div>
