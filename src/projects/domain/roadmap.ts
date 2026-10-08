@@ -7,7 +7,7 @@ export const WAYPOINT_STATUSES = [
   "cancelled",
 ] as const;
 
-export const MILESTONE_STATUSES = ["planned", "released", "deprecated"] as const;
+export const MILESTONE_STATUSES = ["planned", "in_progress", "released", "deprecated"] as const;
 
 export type WaypointStatus = (typeof WAYPOINT_STATUSES)[number];
 export type MilestoneStatus = (typeof MILESTONE_STATUSES)[number];

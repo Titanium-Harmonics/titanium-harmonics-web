@@ -136,5 +136,73 @@ test("groups waypoints under milestones ordered by their last included waypoint"
   assert.deepEqual(grouped.groups.map(({ milestone }) => milestone.id), ["v1.0.0", "v2.0.0"]);
   assert.deepEqual(grouped.groups[0]?.waypoints.map(({ id }) => id), ["WP-001", "WP-002"]);
   assert.deepEqual(grouped.groups[1]?.waypoints.map(({ id }) => id), ["WP-003", "WP-004"]);
-  assert.deepEqual(grouped.unassigned, []);
+});
+
+test("renders an in-progress milestone with waypoint-based completion", () => {
+  const detail = getProjectDetail({
+    ...snapshot,
+    roadmap: {
+      schemaVersion: 1,
+      projectId: "bad",
+      entries: [
+        { id: "WP-001", type: "waypoint", title: "Done", status: "completed", description: "Done", dependsOn: [] },
+        { id: "WP-002", type: "waypoint", title: "Next", status: "planned", description: "Next", dependsOn: [] },
+        { id: "v1.0.0", type: "milestone", title: "Release", status: "in_progress", description: "Release", includes: ["WP-001", "WP-002"] },
+      ],
+    },
+  });
+  assert.equal(detail.roadmap?.groups[0]?.milestone.displayStatus, "In progress");
+  assert.equal(detail.roadmap?.completed, 1);
+  assert.equal(detail.roadmap?.active, 0);
+  const html = renderProjectDetail(detail);
+  assert.match(html, /<details class="roadmap-milestone-group roadmap-status-in_progress"/);
+  assert.match(html, /class="roadmap-status">In progress<\/span>/);
+  assert.match(html, /--milestone-progress: 50%/);
+  assert.match(html, /1 of 2<\/b> waypoints completed/);
+});
+
+test("renders grouped in-progress waypoints and hides unassigned ones", () => {
+  const detail = getProjectDetail({
+    ...snapshot,
+    roadmap: {
+      schemaVersion: 1,
+      projectId: "bad",
+      entries: [
+        { id: "WP-001", type: "waypoint", title: "Grouped", status: "in_progress", description: "Grouped", dependsOn: [] },
+        { id: "WP-002", type: "waypoint", title: "Unassigned", status: "in_progress", description: "Unassigned", dependsOn: [] },
+        { id: "v1.0.0", type: "milestone", title: "Release", status: "planned", description: "Release", includes: ["WP-001"] },
+      ],
+    },
+  });
+  assert.equal(detail.roadmap?.groups[0]?.waypoints[0]?.displayStatus, "In progress");
+  assert.equal(detail.roadmap?.active, 1);
+  assert.equal(detail.roadmap?.completed, 0);
+  assert.equal(detail.roadmap?.groups[0]?.milestone.completedIncludes, 0);
+  const html = renderProjectDetail(detail);
+  assert.doesNotMatch(html, /id="wp-002"|Unversioned waypoints/);
+  assert.equal((html.match(/class="roadmap-status">In progress<\/span>/g) ?? []).length, 1);
+  assert.equal((html.match(/class="roadmap-entry roadmap-waypoint roadmap-status-in_progress"/g) ?? []).length, 1);
+});
+
+test("hides empty milestones and excludes hidden waypoints from summary counts", () => {
+  const detail = getProjectDetail({
+    ...snapshot,
+    roadmap: {
+      schemaVersion: 1,
+      projectId: "bad",
+      entries: [
+        { id: "WP-001", type: "waypoint", title: "Visible", status: "completed", description: "Visible", dependsOn: [] },
+        { id: "WP-002", type: "waypoint", title: "Hidden completed", status: "completed", description: "Hidden", dependsOn: [] },
+        { id: "WP-003", type: "waypoint", title: "Hidden planned", status: "planned", description: "Hidden", dependsOn: [] },
+        { id: "v1.0.0", type: "milestone", title: "Visible release", status: "released", description: "Visible", includes: ["WP-001"] },
+        { id: "v2.0.0", type: "milestone", title: "Empty release", status: "planned", description: "Empty", includes: [] },
+      ],
+    },
+  });
+  assert.deepEqual(detail.roadmap?.groups.map(({ milestone }) => milestone.id), ["v1.0.0"]);
+  assert.equal(detail.roadmap?.milestones, 1);
+  assert.equal(detail.roadmap?.completed, 1);
+  assert.equal(detail.roadmap?.planned, 0);
+  const html = renderProjectDetail(detail);
+  assert.doesNotMatch(html, /Empty release|Hidden completed|Hidden planned|Unversioned waypoints/);
 });

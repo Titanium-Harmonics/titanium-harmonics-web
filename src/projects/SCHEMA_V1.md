@@ -9,6 +9,7 @@ The project repository is the source of truth. `.th/project.yaml` is required;
 - Roadmap list order is presentation order. `depends_on` never controls ordering.
 - A waypoint belongs to zero or one milestone.
 - Milestones own membership through a non-empty `includes` list.
+- Milestone statuses: `planned`, `in_progress`, `released`, `deprecated`.
 - Milestone IDs use strict `vMAJOR.MINOR.PATCH` form.
 - Unknown Schema v1 fields produce warnings and are otherwise tolerated.
 - Unsupported schema versions and invalid registered projects are errors.
