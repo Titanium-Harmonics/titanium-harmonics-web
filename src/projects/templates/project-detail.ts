@@ -57,12 +57,7 @@ ${roadmap.groups.map(({ milestone, waypoints }) => `        <details class="road
 ${waypoints.map(renderWaypoint).join("\n")}
           </ol>
         </details>`).join("\n")}
-${roadmap.unassigned.length ? `        <section class="roadmap-unassigned" aria-labelledby="unassigned-waypoints-heading">
-          <h3 id="unassigned-waypoints-heading">Unversioned waypoints</h3>
-          <ol class="roadmap-list">
-${roadmap.unassigned.map(renderWaypoint).join("\n")}
-          </ol>
-        </section>` : ""}
+
       </div>
     </section>`;
 }

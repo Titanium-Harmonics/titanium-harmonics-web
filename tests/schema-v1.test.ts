@@ -137,3 +137,17 @@ test("checks cross-file project identity", async () => {
     assert.equal(validateProjectRoadmapMatch(project.data, roadmap.data).success, false);
   }
 });
+
+test("accepts supported milestone statuses and rejects unsupported ones", () => {
+  for (const status of ["planned", "in_progress", "released", "deprecated", "ongoing", "completed"]) {
+    const result = parseManifest(`
+schema_version: 1
+project: bad
+roadmap:
+  - { id: WP-001, type: waypoint, title: One, status: planned, description: One }
+  - { id: v1.0.0, type: milestone, title: Release, status: ${status}, description: Release, includes: [WP-001] }
+`, "roadmap");
+    assert.equal(result.success, !["ongoing", "completed"].includes(status), status);
+    if (result.success) assert.equal(result.data.entries[1]?.status, status);
+  }
+});
