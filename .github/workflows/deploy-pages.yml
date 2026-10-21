@@ -45,6 +45,7 @@ jobs:
           test -f dist/index.html
           test -f dist/projects/index.html
           test -f dist/projects/bad/index.html
+          test -f dist/projects/ride-mk1/index.html
           test -f dist/.nojekyll
           find dist -type f -print | sort
 
