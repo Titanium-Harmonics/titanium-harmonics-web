@@ -10,5 +10,10 @@ export const PROJECT_REPOSITORIES = [
     repository: "BAD",
     ref: "main",
   },
+  {
+    owner: "Titanium-Harmonics",
+    repository: "RIDE",
+    ref: "development",
+  },
 ] as const satisfies readonly RepositoryRegistration[];
 
