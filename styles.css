@@ -429,7 +429,8 @@ button:focus-visible {
 }
 
 .project-card-media {
-  height: clamp(160px, 22vw, 200px);
+  height: clamp(180px, 24vw, 220px);
+  flex: 0 0 auto;
   margin: -1.5rem -1.5rem 1.5rem;
   overflow: hidden;
   background: var(--graphite-900);
