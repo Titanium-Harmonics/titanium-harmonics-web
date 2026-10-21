@@ -70,7 +70,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="${escapeHtml(project.summary)}" />
   <title>${escapeHtml(project.name)} — Titanium Harmonics</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles.css?v=20261021-banner-fill" />
   <link rel="stylesheet" href="/projects.css" />
 </head>
 <body>
