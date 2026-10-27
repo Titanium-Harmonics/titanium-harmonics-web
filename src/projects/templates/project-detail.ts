@@ -1,6 +1,6 @@
 import type { ProjectDetailView } from "../queries/project-detail.js";
 import type { TimelineWaypoint } from "../queries/project-detail.js";
-import { escapeHtml } from "./html.js";
+import { escapeHtml, sentenceCase, SITE_GITHUB_URL } from "./html.js";
 import { renderBackToTop } from "./site-controls.js";
 
 function renderTags(title: string, tags: readonly string[]): string {
@@ -17,7 +17,7 @@ function renderWaypoint(entry: TimelineWaypoint): string {
   return `            <li class="roadmap-entry roadmap-waypoint roadmap-status-${escapeHtml(entry.status)}" id="${escapeHtml(entry.id.toLowerCase())}" data-roadmap-id="${escapeHtml(entry.id)}">
               <span class="roadmap-node" aria-hidden="true"></span>
               <div class="roadmap-entry-card">
-                <div class="roadmap-entry-meta"><span>${escapeHtml(entry.id)}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
+                <div class="roadmap-entry-meta"><span>${escapeHtml(sentenceCase(entry.id))}</span><span class="roadmap-status">${escapeHtml(entry.displayStatus)}</span></div>
                 <h3>${escapeHtml(entry.title)}</h3>
                 <p>${escapeHtml(entry.description)}</p>
 ${entry.dependsOn.length ? `                <p class="roadmap-relations">Depends on ${entry.dependsOn.map((id) => `<a href="#${escapeHtml(id.toLowerCase())}" data-roadmap-ref="${escapeHtml(id)}">${escapeHtml(id)}</a>`).join(", ")}</p>` : ""}
@@ -31,7 +31,6 @@ function renderRoadmap(project: ProjectDetailView): string {
   return `    <section class="project-detail-section roadmap-preview" aria-labelledby="roadmap-heading">
       <div class="detail-section-heading">
         <div>
-          <p class="eyebrow">PROJECT ROADMAP</p>
           <h2 id="roadmap-heading">Project evolution.</h2>
         </div>
         <dl class="roadmap-summary" aria-label="Roadmap summary">
@@ -46,7 +45,7 @@ ${roadmap.groups.map(({ milestone, waypoints }) => `        <details class="road
           <summary class="milestone-summary">
             <span class="milestone-summary-node" aria-hidden="true"></span>
             <span class="milestone-summary-content">
-              <span class="roadmap-entry-meta"><span>MILESTONE ${escapeHtml(milestone.id)}</span><span class="roadmap-status">${escapeHtml(milestone.displayStatus)}</span></span>
+              <span class="roadmap-entry-meta"><span>Milestone ${escapeHtml(milestone.id)}</span><span class="roadmap-status">${escapeHtml(milestone.displayStatus)}</span></span>
               <strong>${escapeHtml(milestone.title)}</strong>
               <span class="milestone-description">${escapeHtml(milestone.description)}</span>
               <span class="milestone-progress"><span style="--milestone-progress: ${Math.round((milestone.completedIncludes / milestone.includes.length) * 100)}%"></span><span><b>${milestone.completedIncludes} of ${milestone.includes.length}</b> waypoints completed</span></span>
@@ -68,6 +67,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#232527" />
   <meta name="description" content="${escapeHtml(project.summary)}" />
   <title>${escapeHtml(project.name)} — Titanium Harmonics</title>
   <link rel="stylesheet" href="/styles.css" />
@@ -87,7 +87,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
       <a href="/">Home</a>
       <a aria-current="page" href="/projects/">Projects</a>
       <a href="/#contact">Contact</a>
-      <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="${SITE_GITHUB_URL}" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
@@ -101,7 +101,7 @@ export function renderProjectDetail(project: ProjectDetailView): string {
     </nav>
     <section class="project-detail-hero">
       <div class="project-detail-copy">
-        <div class="project-detail-kicker"><p class="eyebrow">PROJECT</p><span class="project-status">${escapeHtml(project.status.toUpperCase())}</span></div>
+        <div class="project-detail-kicker"><span class="project-status" data-status="${escapeHtml(project.status.toLowerCase())}">${escapeHtml(sentenceCase(project.status))}</span></div>
         <h1>${escapeHtml(project.name)}</h1>
 ${project.fullName ? `        <p class="project-detail-full-name">${escapeHtml(project.fullName)}</p>` : ""}
         <p class="project-detail-summary">${escapeHtml(project.summary)}</p>
@@ -118,7 +118,6 @@ ${renderTags("Categories", project.categories)}
 ${renderRoadmap(project)}
 
     <section class="project-detail-section project-links-section" aria-labelledby="links-heading">
-      <p class="eyebrow">PROJECT LINKS</p>
       <h2 id="links-heading">Explore the project.</h2>
       <ul class="project-link-list">
 ${project.links.map(({ label, url }) => `        <li><a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><span>${escapeHtml(label)}</span><span aria-hidden="true">↗</span></a></li>`).join("\n")}

@@ -70,6 +70,9 @@ test("renders escaped accessible project cards", () => {
   assert.doesNotMatch(html, /target="_blank"/);
   assert.match(html, /aria-label="Platform and technologies"/);
   assert.match(html, /class="project-card-link"/);
+  assert.match(html, />View project<\/a>/);
+  assert.match(html, /data-status="active">Active<\/span>/);
+  assert.doesNotMatch(html, /project-number|nav-cta/);
   assert.match(html, /aria-label="Explore B\.A\.D\."/);
   assert.doesNotMatch(html, />Explore project<\/a>/);
 });
@@ -83,6 +86,8 @@ test("adds an incoming-project placeholder only when requested", () => {
   assert.match(homepage, /src="\/assets\/c_soon\.png"/);
   assert.match(homepage, /Coming Soon/);
   assert.doesNotMatch(catalog, /More projects are taking shape/);
+  assert.match(homepage, /role="button" tabindex="0"/);
+  assert.match(homepage, /aria-live="polite"/);
 });
 
 test("renders the standalone Projects index", () => {
@@ -90,6 +95,8 @@ test("renders the standalone Projects index", () => {
   assert.match(html, /<title>Projects — Titanium Harmonics<\/title>/);
   assert.match(html, /aria-label="Main navigation">\s*<a href="\/">Home<\/a>/);
   assert.match(html, /aria-current="page"/);
+  assert.match(html, /project-card-placeholder/);
+  assert.doesNotMatch(html, /PROJECT INDEX|nav-cta/);
   assert.match(html, /class="projects-statement">Explore the things we build\./);
   assert.match(html, /From early prototypes and failures/);
   assert.match(html, /href="\/#contact">Contact<\/a>/);
@@ -111,7 +118,7 @@ test("builds and renders a project detail page", () => {
   assert.match(html, /<span aria-current="page">B\.A\.D\.<\/span>/);
   assert.doesNotMatch(html, /← All projects/);
   assert.match(html, /id="wp-001"/);
-  assert.match(html, /MILESTONE v1\.0\.0/);
+  assert.match(html, /Milestone v1\.0\.0/);
   assert.match(html, /1 of 1<\/b> waypoints completed/);
   assert.match(html, /<details class="roadmap-milestone-group/);
   assert.match(html, /View on GitHub/);

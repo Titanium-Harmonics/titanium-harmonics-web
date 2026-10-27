@@ -40,6 +40,7 @@ await Promise.all([
   writeFile(resolve(output, ".nojekyll"), ""),
   cp(resolve(root, "styles.css"), resolve(output, "styles.css")),
   cp(resolve(root, "projects.css"), resolve(output, "projects.css")),
+  cp(resolve(root, "site.webmanifest"), resolve(output, "site.webmanifest")),
   cp(resolve(root, "CNAME"), resolve(output, "CNAME")),
   cp(resolve(root, "assets"), resolve(output, "assets"), { recursive: true }),
   mkdir(resolve(output, "projects"), { recursive: true }).then(() =>
