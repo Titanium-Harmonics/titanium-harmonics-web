@@ -1,3 +1,4 @@
+import { SITE_GITHUB_URL } from "./html.js";
 import type { ProjectCardView } from "../queries/project-catalog.js";
 import { renderProjectGrid } from "./project-card.js";
 import { renderBackToTop } from "./site-controls.js";
@@ -8,6 +9,7 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#232527" />
   <meta name="description" content="Explore engineering projects from Titanium Harmonics." />
   <title>Projects — Titanium Harmonics</title>
   <link rel="stylesheet" href="/styles.css" />
@@ -27,19 +29,18 @@ export function renderProjectsIndex(projects: readonly ProjectCardView[]): strin
       <a href="/">Home</a>
       <a aria-current="page" href="/projects/">Projects</a>
       <a href="/#contact">Contact</a>
-      <a class="nav-cta" href="https://github.com/Titanium-Harmonics" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="${SITE_GITHUB_URL}" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
 
   <main class="projects-page">
     <section class="projects-intro">
-      <p class="eyebrow">PROJECT INDEX</p>
       <h1 class="projects-statement">Explore the things we build.</h1>
       <p>From early prototypes and failures to satisfying fixes and finished projects.</p>
     </section>
     <section aria-labelledby="project-list-heading">
       <h2 class="visually-hidden" id="project-list-heading">Titanium Harmonics projects</h2>
-${renderProjectGrid(projects)}
+${renderProjectGrid(projects, { showIncomingPlaceholder: true })}
     </section>
   </main>
 
